@@ -1,0 +1,5 @@
+server:
+  port: ${PORT:5500}
+spring:
+  application:
+    name: iBook
