@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.project.iBook.vo.Result;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/books/search", method = RequestMethod.GET)
 public class SearchController {
 
