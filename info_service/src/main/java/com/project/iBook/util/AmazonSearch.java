@@ -3,8 +3,6 @@ package com.project.iBook.util;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +17,25 @@ public class AmazonSearch {
     @Resource(name = "restTemplate")
     private RestTemplate restTemplate;
 
+    public double[] searchPrice(String isbn_13) {
+        double[] res = new double[2];
+        String address = rainforestApi + isbn_13;
+        restTemplate = new RestTemplate();
+        String jsonString = restTemplate.getForObject(address, String.class);
+
+        Gson gson = new Gson();
+        JsonObject json = gson.fromJson(jsonString, JsonObject.class);
+
+        JsonElement rating = ((JsonObject)(json.get("product"))).get("rating");
+        double ratingScore = Double.parseDouble(rating.getAsString());
+        res[0] = ratingScore;
+
+        JsonElement buybox_winner = ((JsonObject)(json.get("product"))).get("buybox_winner");
+        JsonElement temp = buybox_winner.getAsJsonObject().get("price");
+        String price = temp.getAsJsonObject().get("value").getAsString();
+        res[1] = Double.parseDouble(price);
+        return res;
+    }
 
 //    public double[] searchPrice(String isbn_13) {
 //        double[] res = new double[2];
@@ -49,25 +66,5 @@ public class AmazonSearch {
 //
 //        return res;
 //    }
-
-    public double[] searchPrice(String isbn_13) {
-        double[] res = new double[2];
-        String address = rainforestApi + isbn_13;
-        restTemplate = new RestTemplate();
-        String jsonString = restTemplate.getForObject(address, String.class);
-
-        Gson gson = new Gson();
-        JsonObject json = gson.fromJson(jsonString, JsonObject.class);
-
-        JsonElement rating = ((JsonObject)(json.get("product"))).get("rating");
-        double ratingScore = Double.parseDouble(rating.getAsString());
-        res[0] = ratingScore;
-
-        JsonElement buybox_winner = ((JsonObject)(json.get("product"))).get("buybox_winner");
-        JsonElement temp = buybox_winner.getAsJsonObject().get("price");
-        String price = temp.getAsJsonObject().get("value").getAsString();
-        res[1] = Double.parseDouble(price);
-        return res;
-    }
 
 }

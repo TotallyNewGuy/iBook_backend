@@ -28,4 +28,5 @@ public class BookVo {
     private GoogleBooks.Items.VolumeInfo.ImageLinks imageLinks;
     private GoogleBooks.Items.SaleInfo.ListPrice listPrice;
     private Double amazonPrice;
+    private Double amazonRating;
 }
