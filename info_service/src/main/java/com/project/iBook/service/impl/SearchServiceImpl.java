@@ -1,6 +1,7 @@
 package com.project.iBook.service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.project.iBook.dao.pojo.GoogleBooks;
 import com.project.iBook.service.SearchService;
 import com.project.iBook.vo.BookVo;
@@ -14,7 +15,6 @@ import static com.project.iBook.util.PojoToVo.bookVoConverter;
 import static com.project.iBook.util.PojoToVo.googleBookConvert;
 
 @Service
-
 public class SearchServiceImpl implements SearchService {
 
     public static final int limit = 20;
@@ -29,6 +29,9 @@ public class SearchServiceImpl implements SearchService {
     public static final String TITLE = "intitle:";
     public static final String AUTHOR = "inauthor:";
     public static final String ISBN = "isbn:";
+
+    private static final String rainforestApi = "https://api.rainforestapi.com/request?api_key=" +
+            "9C6577D3F1D14CE7A50A7DAF115E6F6D&type=product&amazon_domain=amazon.com&gtin=";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -67,7 +70,6 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public Result findById(String id) {
         String query = FindByIdAddress + id;
-//        String query = FindByIdAddress + id + googleKey;
         String jsonString = restTemplate.getForObject(query, String.class);
 
         Gson gson = new Gson();

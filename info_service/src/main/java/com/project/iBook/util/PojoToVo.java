@@ -1,11 +1,15 @@
 package com.project.iBook.util;
 
 import com.project.iBook.dao.pojo.GoogleBooks;
+import com.project.iBook.service.SearchService;
 import com.project.iBook.vo.BookVo;
 import com.project.iBook.vo.BooksVo;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 
 public class PojoToVo {
+
+    static SearchService searchService;
 
     public static BooksVo googleBookConvert(GoogleBooks googleBook) {
         int len = googleBook.getItems().length;
@@ -22,7 +26,7 @@ public class PojoToVo {
     }
 
 
-    public static BookVo bookVoConverter(GoogleBooks.Items item) {
+    public static BookVo bookVoConverter(GoogleBooks.Items item){
         BookVo bookVo = new BookVo();
         BeanUtils.copyProperties(item.getVolumeInfo(), bookVo);
 
@@ -50,6 +54,13 @@ public class PojoToVo {
             bookVo.setWidth(item.getVolumeInfo().getDimensions().getWidth());
             bookVo.setThickness(item.getVolumeInfo().getDimensions().getThickness());
         }
+
+        AmazonSearch amazonSearch = new AmazonSearch();
+        double[] amazonPriceAndRating = amazonSearch.searchPrice(isbn_13);
+        double rating = amazonPriceAndRating[0];
+        double price = amazonPriceAndRating[1];
+        bookVo.setAmazonPrice(price);
+        bookVo.setAverageRating(rating);
 
         return bookVo;
     }
