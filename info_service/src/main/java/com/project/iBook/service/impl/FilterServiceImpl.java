@@ -29,6 +29,7 @@ public class FilterServiceImpl implements FilterService {
 
     // Recent books about keyword ordered from newest to oldest
     public static final String googleKey = "&key=AIzaSyCJikaJ1oRTAiy0oc3PM6qzqRpSLPGw7CE";
+    public static final String googleKey2 = "&key=AIzaSyBNZz0yQjWnT1i0e4uBy-abtzfCyQQcd-8";
     public static final String LIMIT = "&maxResults=";
     public static final String RECENT = "https://www.googleapis.com/books/v1/volumes?q=";
     public static final String ORDER = "&orderBy=newest";
@@ -67,7 +68,7 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public Result findRecentBooks(int limit, String keyword) {
-        String query = RECENT + keyword + ORDER + LIMIT + limit + googleKey;
+        String query = RECENT + keyword + ORDER + LIMIT + limit + googleKey2;
         String jsonString = restTemplate.getForObject(query, String.class);
 
         Gson gson = new Gson();

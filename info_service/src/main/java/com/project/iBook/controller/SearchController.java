@@ -20,6 +20,11 @@ public class SearchController {
         return searchService.findOverall(keyword);
     }
 
+    @GetMapping("{keyword}/{number}")
+    public Result searchBooksByKeyword(@PathVariable("keyword") String keyword, @PathVariable("number") int number) {
+        return searchService.findOverallByNum(keyword, number);
+    }
+
     @GetMapping("title/{title}")
     public Result searchBooksByTitle(@PathVariable("title") String title) throws ParseException {
         return searchService.findByTitle(title);

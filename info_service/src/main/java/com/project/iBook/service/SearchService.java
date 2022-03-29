@@ -15,4 +15,6 @@ public interface SearchService {
     Result findById(String id);
 
     Result findOverall(String keyword);
+
+    Result findOverallByNum(String keyword, int number);
 }
