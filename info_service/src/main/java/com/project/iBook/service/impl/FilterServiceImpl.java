@@ -39,7 +39,7 @@ public class FilterServiceImpl implements FilterService {
         String query = BESTSELLER + nytKey;
         String jsonString = restTemplate.getForObject(query, String.class);
         if (jsonString == null || jsonString.length() == 0) {
-            return Result.fail(500, "json parse fail");
+            return Result.fail(404, "invalid parameter");
         }
 
         JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
