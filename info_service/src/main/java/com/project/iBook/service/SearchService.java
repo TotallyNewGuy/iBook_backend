@@ -2,7 +2,6 @@ package com.project.iBook.service;
 
 import com.project.iBook.vo.Result;
 import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Service;
 
 public interface SearchService {
 

@@ -25,4 +25,20 @@ public class Result {
     public static Result fail(int code, String msg) {
         return new Result(false, code, msg, null);
     }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Result)) {
+            return false;
+        }
+        Result compare = (Result) obj;
+        return this.getData() == compare.getData() &&
+                this.getCode() == compare.getCode() &&
+                this.getMsg().equals(compare.getMsg()) &&
+                this.isSuccess() == compare.isSuccess();
+    }
 }

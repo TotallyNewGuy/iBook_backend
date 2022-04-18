@@ -1,7 +1,6 @@
 package com.project.iBook.util;
 
 import com.project.iBook.dao.pojo.GoogleBooks;
-import com.project.iBook.service.SearchService;
 import com.project.iBook.vo.BookVo;
 import com.project.iBook.vo.BooksVo;
 import org.springframework.beans.BeanUtils;
@@ -32,13 +31,15 @@ public class PojoToVo {
         String isbn_13 = "";
         GoogleBooks.Items.VolumeInfo.IndustryIdentifiers[] industryIdentifiers
                 = item.getVolumeInfo().getIndustryIdentifiers();
-        for (int i = 0; i < industryIdentifiers.length; i++) {
-            if (industryIdentifiers[i].getType().equals("ISBN_10")) {
-                isbn_10 = industryIdentifiers[i].getIdentifier();
-            } else if (industryIdentifiers[i].getType().equals("ISBN_13")){
-                isbn_13 = industryIdentifiers[i].getIdentifier();
-            } else {
-                bookVo.setOther_IndustryIdentifier(industryIdentifiers[i].getIdentifier());
+        if (industryIdentifiers != null) {
+            for (int i = 0; i < industryIdentifiers.length; i++) {
+                if (industryIdentifiers[i].getType().equals("ISBN_10")) {
+                    isbn_10 = industryIdentifiers[i].getIdentifier();
+                } else if (industryIdentifiers[i].getType().equals("ISBN_13")){
+                    isbn_13 = industryIdentifiers[i].getIdentifier();
+                } else {
+                    bookVo.setOther_IndustryIdentifier(industryIdentifiers[i].getIdentifier());
+                }
             }
         }
 
@@ -51,7 +52,6 @@ public class PojoToVo {
             bookVo.setWidth(item.getVolumeInfo().getDimensions().getWidth());
             bookVo.setThickness(item.getVolumeInfo().getDimensions().getThickness());
         }
-
 
         AmazonSearch amazonSearch = new AmazonSearch();
 //        if (bookVo.getListPrice() == null) {

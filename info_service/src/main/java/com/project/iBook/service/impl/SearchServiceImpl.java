@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.*;
+
 import static com.project.iBook.util.PojoToVo.bookVoConverter;
 import static com.project.iBook.util.PojoToVo.googleBookConvert;
 
@@ -29,9 +31,6 @@ public class SearchServiceImpl implements SearchService {
     public static final String TITLE = "intitle:";
     public static final String AUTHOR = "inauthor:";
     public static final String ISBN = "isbn:";
-
-    private static final String rainforestApi = "https://api.rainforestapi.com/request?api_key=" +
-            "9C6577D3F1D14CE7A50A7DAF115E6F6D&type=product&amazon_domain=amazon.com&gtin=";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -70,7 +69,12 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public Result findById(String id) {
         String query = FindByIdAddress + id;
-        String jsonString = restTemplate.getForObject(query, String.class);
+        String jsonString = "";
+        try {
+            jsonString = restTemplate.getForObject(query, String.class);
+        } catch (Exception e) {
+            return Result.fail(404, "Request uri is invalid");
+        }
 
         Gson gson = new Gson();
         GoogleBooks.Items book = gson.fromJson(jsonString, GoogleBooks.Items.class);
@@ -102,6 +106,10 @@ public class SearchServiceImpl implements SearchService {
         String query = ADDRESS + search + term + LIMIT + googleKey2;
         String jsonString = restTemplate.getForObject(query, String.class);
 
+        if (errorMsg.equals(jsonString)) {
+            return Result.fail(404, "Request uri is invalid");
+        }
+
         Gson gson = new Gson();
         GoogleBooks googleBook = gson.fromJson(jsonString, GoogleBooks.class);
 
@@ -113,4 +121,8 @@ public class SearchServiceImpl implements SearchService {
         return Result.fail(500, "json parse fail");
     }
 
+    private static final String errorMsg = "{\n" +
+            "  \"kind\": \"books#volumes\",\n" +
+            "  \"totalItems\": 0\n" +
+            "}\n";
 }

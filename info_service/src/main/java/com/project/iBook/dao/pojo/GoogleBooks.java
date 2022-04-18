@@ -542,6 +542,22 @@ public class GoogleBooks {
                 public void setExtraLarge(String extraLarge) {
                     this.extraLarge = extraLarge;
                 }
+
+//                @Override
+//                public String toString() {
+//                    return thumbnail + "\n" +
+//                            smallThumbnail + "\n" +
+//                            small + "\n" +
+//                            medium + "\n" +
+//                            large + "\n" +
+//                            extraLarge;
+//                }
+
+                @Override
+                public String toString() {
+                    return "Some links";
+                }
+
             }
 
             public class Dimensions {
