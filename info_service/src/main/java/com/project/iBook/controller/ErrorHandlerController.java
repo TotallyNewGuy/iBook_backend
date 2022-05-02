@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ErrorHandlerController {
 
     @GetMapping
-    public Result purchaseFail() {
+    public Result fail() {
+        System.out.println("fail的问题");
         return Result.fail(404, "Request uri is invalid");
     }
 }

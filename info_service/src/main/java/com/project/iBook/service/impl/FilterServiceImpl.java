@@ -25,11 +25,14 @@ public class FilterServiceImpl implements FilterService {
 
     // Current Best Sellers Lists
     public static final String BESTSELLER = "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?";
-    public static final String nytKey = "api-key=J93JoV6Silz7AwQz7gbiyOYjQb1uxPA6";
+//    public static final String nytKey = "api-key=J93JoV6Silz7AwQz7gbiyOYjQb1uxPA6";
+    public static final String nytKey = "api-key=sUXMgOx0bPZAPRUFbx29fShC2DQkWHwl";
 
     // Recent books about keyword ordered from newest to oldest
-    public static final String googleKey = "&key=AIzaSyCJikaJ1oRTAiy0oc3PM6qzqRpSLPGw7CE";
+    public static final String googleKey = "&key=AIzaSyDM3dFPU5K1z1Vx5ltnVKgMhzYQxvv72Io";
     public static final String googleKey2 = "&key=AIzaSyBNZz0yQjWnT1i0e4uBy-abtzfCyQQcd-8";
+    public static final String googleKey3 = "&key=AIzaSyD7E9L8hJ6Zr5cmfYP3sCqKeqQPbkjWl7k";
+
     public static final String LIMIT = "&maxResults=";
     public static final String RECENT = "https://www.googleapis.com/books/v1/volumes?q=";
     public static final String ORDER = "&orderBy=newest";
@@ -44,7 +47,6 @@ public class FilterServiceImpl implements FilterService {
 
         JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
         JsonArray topBooks = jsonObject.get("results").getAsJsonObject().get("books").getAsJsonArray();
-
         BookVo[] allBooks = new BookVo[limit];
         int index = 0;
 
@@ -61,16 +63,14 @@ public class FilterServiceImpl implements FilterService {
             BookVo targetBook = ((BooksVo) res.getData()).getBooks()[0];
             allBooks[index++] = targetBook;
         }
-
         BooksVo res = new BooksVo(allBooks);
         return Result.success(res);
     }
 
     @Override
     public Result findRecentBooks(int limit, String keyword) {
-        String query = RECENT + keyword + ORDER + LIMIT + limit + googleKey2;
+        String query = RECENT + keyword + ORDER + LIMIT + limit + googleKey;
         String jsonString = restTemplate.getForObject(query, String.class);
-
         Gson gson = new Gson();
         GoogleBooks googleBook = gson.fromJson(jsonString, GoogleBooks.class);
 

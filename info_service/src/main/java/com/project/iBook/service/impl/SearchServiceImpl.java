@@ -18,8 +18,9 @@ public class SearchServiceImpl implements SearchService {
 
     public static final int limit = 20;
 
-    public static final String googleKey = "&key=AIzaSyCJikaJ1oRTAiy0oc3PM6qzqRpSLPGw7CE";
+    public static final String googleKey = "&key=AIzaSyDM3dFPU5K1z1Vx5ltnVKgMhzYQxvv72Io";
     public static final String googleKey2 = "&key=AIzaSyBNZz0yQjWnT1i0e4uBy-abtzfCyQQcd-8";
+    public static final String googleKey3 = "&key=AIzaSyD7E9L8hJ6Zr5cmfYP3sCqKeqQPbkjWl7k";
     public static final String LIMIT = "&maxResults=" + limit;
 
     public static final String ADDRESS = "https://www.googleapis.com/books/v1/volumes?q=";
@@ -34,9 +35,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public Result findOverall(String keyword) {
-        String query = ADDRESS + keyword + LIMIT + googleKey2;
+        String query = ADDRESS + keyword + LIMIT + googleKey;
         String jsonString = restTemplate.getForObject(query, String.class);
-
         Gson gson = new Gson();
         GoogleBooks googleBook = gson.fromJson(jsonString, GoogleBooks.class);
 
@@ -50,7 +50,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public Result findOverallByNum(String keyword, int number) {
         String customLimit = "&maxResults=" + number;
-        String query = ADDRESS + keyword + customLimit + googleKey2;
+        String query = ADDRESS + keyword + customLimit + googleKey;
         String jsonString = restTemplate.getForObject(query, String.class);
 
         Gson gson = new Gson();
@@ -100,21 +100,17 @@ public class SearchServiceImpl implements SearchService {
     }
 
     private Result getResult(String search, String term) {
-        String query = ADDRESS + search + term + LIMIT + googleKey2;
+        String query = ADDRESS + search + term + LIMIT + googleKey;
         String jsonString = restTemplate.getForObject(query, String.class);
-
         if (errorMsg.equals(jsonString)) {
             return Result.fail(404, "Request uri is invalid");
         }
-
         Gson gson = new Gson();
         GoogleBooks googleBook = gson.fromJson(jsonString, GoogleBooks.class);
-
         if (googleBook != null) {
             BooksVo booksVo = googleBookConvert(googleBook);
             return Result.success(booksVo);
         }
-
         return Result.fail(500, "json parse fail");
     }
 

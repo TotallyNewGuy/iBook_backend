@@ -54,10 +54,12 @@ public class PojoToVo {
         }
 
         AmazonSearch amazonSearch = new AmazonSearch();
+//        double rating = -1;
+//        double price = -1;
 //        if (bookVo.getListPrice() == null) {
 //            double[] amazonPriceAndRating = amazonSearch.searchPrice(isbn_13);
-//            double rating = amazonPriceAndRating[0];
-//            double price = amazonPriceAndRating[1];
+//            rating = amazonPriceAndRating[0];
+//            price = amazonPriceAndRating[1];
 //            bookVo.setAmazonPrice(price);
 //            bookVo.setAmazonRating(rating);
 //        }
